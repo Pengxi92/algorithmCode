@@ -87,7 +87,9 @@ Graph.prototype.bfs2 = function(v) {
   this.initMark();
   var list = [v];
   this.marked[v] = true;
+  console.log('搜索到了节点：', v);
   this.edgeTo = [];
+  this.edgeTo[v] = null;
   while (list.length > 0) {
     var w = list.shift();
     this.adj[w].map((value) => {
@@ -104,11 +106,9 @@ Graph.prototype.bfs2 = function(v) {
 // 获取路径
 Graph.prototype.pathTo = function(f, e) {
   const path = [e];
-  var w = this.edgeTo[e];
-  console.log('w = ', w);
+  var w = e;
   while (w !== f) {
     w = this.edgeTo[w];
-    console.log('w = ', w);
     path.unshift(w);
   }
   return path;
@@ -126,9 +126,9 @@ console.log('-------------------');
 // var mark = g.dfs(2); // [ true, true, true, true, true ]
 
 // g.bfs(2); // 搜索到了节点：2 - 0 - 4 - 1 - 5 - 3
-g.bfs1(2); // 搜索到了节点：2 - 0 - 4 - 1 - 5 - 3
-console.log(g.edgeTo);
-// console.log(g.pathTo(2, 5));
+g.bfs2(2); // 搜索到了节点：2 - 0 - 4 - 1 - 5 - 3
+console.log(g.edgeTo); // [ 2, 0, null, 1, 2, 4 ]
+console.log(g.pathTo(2, 5)); // [ 2, 4, 5 ]
 
 
 
