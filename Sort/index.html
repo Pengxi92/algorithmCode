@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>code1</title>
+  </head>
+  <body></body>
+  <script>
+  // 数组排重
+  // see github：https://github.com/mqyqingfeng/Blog/issues/27
+  const list = ['北京', '上海', '天津', '上海', '成都', '北京', '上海', '天津'];
+  const len = list.length;
+
+  // 方法一：对数组进行map/for 循环，在其中判断单个元素是否在另一个数组中
+  var list1 = [];
+  for (var i = 0; i < len; i ++) {
+    const l = list[i]; 
+    if (list1.indexOf(l) === -1) {
+      list1.push(l);
+    }
+  }
+  console.log(list1); // ["北京", "上海", "天津", "成都"]
+
+  list1 = [];
+  list.forEach(function(value) {
+    if (list1.indexOf(value) === -1) {
+      list1.push(value);
+    }
+  });
+  console.log(list1); // ["北京", "上海", "天津", "成都"]
+
+  // 方法二：对数组进行map/for 循环，在其中判断单个元素是否在另一个对象的属性中
+  // 优化：通过hasOwnProperty来判断对象中是否有该属性；
+  // 针对1和'1'的不同，对象可用typeof item + item来做key
+  // 针对对象，可以使用 JSON.stringify 将对象序列化
+  list1 = [];
+  const listObj = {};
+  list.forEach(function(value) {
+    if (listObj[value] !== value) {
+      list1.push(value);
+      listObj[value] = value;
+    }
+  });
+  console.log(listObj);// {北京: "北京", 上海: "上海", 天津: "天津", 成都: "成都"}
+  console.log(list1);// ["北京", "上海", "天津", "成都"]
+
+  // 方法三：对数组进行排序，再循环Array，判断当前元素是否等于上一个元素
+  list1 = [];
+  var list2 = list.sort();
+  console.log(list2); // ["上海", "上海", "上海", "北京", "北京", "天津", "天津", "成都"]
+  list2.map(function(value){   
+    if (value !== list1.slice(-1)[0]) {
+      list1.push(value);
+    }
+  });
+  console.log(list1); // ["上海", "北京", "天津", "成都"]
+
+  list1 = [];
+  list2.map(function(value, index, arr){
+    if (index === 0 || value !== arr[index - 1]) {
+      list1.push(value);
+    }
+  });
+  console.log(list1); // ["上海", "北京", "天津", "成都"]
+
+  // 方法四：使用ES6的算法
+  console.log([...new Set(list)]); // ["上海", "北京", "天津", "成都"]
+  
+  </script>
+</html>
