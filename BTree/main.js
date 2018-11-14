@@ -1,3 +1,7 @@
+/**
+ * 二叉树
+ */
+
 function Node(data, left, right) {
   this.data = data;
   this.left = left;
@@ -21,22 +25,20 @@ BST.prototype.insert = function(data) {
   var current = this.root;
   var parent = null;
   while(true) {
-    if (current.left === null) {
-      current.left = node;
-      break;
-    }
-    if (current.right === null) {
-      if (data > current.left.data) {
-        current.right = node;
-      } else {
-        const n = current.left;
-        current.right = n;
+    // 将比当前元素小的，放到左侧；其他放到右侧
+    if (data < current.data) {
+      if (current.left === null) {
         current.left = node;
+        break;
       }
-
-      break;
+      current = current.left;
+    } else {
+      if (current.right === null) {
+        current.right = node;
+        break;
+      }
+      current = current.right;
     }
-    current = data < current.data ? current.left : current.right;
   }
 }
 

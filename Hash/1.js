@@ -1,3 +1,7 @@
+/**
+ * 散列图
+ */
+
 function Hash() {
   this.table = new Array(137);
 }

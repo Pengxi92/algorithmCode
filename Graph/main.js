@@ -1,3 +1,7 @@
+/**
+ * 图
+ */
+
 function Graph(v) {
   this.vertices = v; // 顶点的数量
   this.edges = 0; // 边的数量
