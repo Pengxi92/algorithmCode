@@ -63,8 +63,13 @@
   });
   console.log(list1); // ["上海", "北京", "天津", "成都"]
 
-  // 方法四：使用ES6的算法
+  // 方法四：使用ES6的算法-Set
   console.log([...new Set(list)]); // ["上海", "北京", "天津", "成都"]
+
+  // 方法五：使用ES6的算法-Map
+  const res = new Map();
+  list1 = list.filter((a) => !res.has(a) && res.set(a, 1));
+  console.log('map', list1); // ["上海", "北京", "天津", "成都"]
   
   </script>
 </html>
