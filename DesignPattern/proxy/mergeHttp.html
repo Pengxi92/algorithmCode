@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>代理模式</title>
+  </head>
+  <body>
+    <div>
+      <input type="checkbox" id="1">
+      <input type="checkbox" id="2">
+      <input type="checkbox" id="3">
+      <input type="checkbox" id="4">
+      <input type="checkbox" id="5">
+      <input type="checkbox" id="6">
+      <input type="checkbox" id="7">
+      <input type="checkbox" id="8">
+      <input type="checkbox" id="9">
+    </div>
+    <script>
+    // 点击input时，会调用接口获取对应的文件信息
+    var getFile = function (id) {
+      if (typeof id === 'string') {
+        console.log(`获取${id}号文件`);
+      } else {
+        console.log(`获取${id.join()}号文件`);
+      }
+    }
+
+    // 代理模式-合并http请求
+    var mergeHttp = (function () {
+      var cache = [], time = null;
+      return function (id) {
+        cache.push(id);
+        if (time) return;
+        time = setTimeout(() => {
+          getFile(cache);
+          cache = [];
+          time = null;
+        }, 2000);
+      }; 
+    })();
+
+    var checkboxs = document.getElementsByTagName('input');    
+    Array.prototype.map.call(checkboxs, (ele, index) => {
+      ele.onclick = function (e) {
+        mergeHttp(e.target.id);
+      }
+    });
+    </script>
+  </body>
+</html>
