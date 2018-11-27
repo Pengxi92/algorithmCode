@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>代理模式</title>
+  </head>
+  <body>
+    <img id="img1" />
+    <script>
+    var myImg = function (ele, src) {
+      ele.src = src;
+    };
+    // 代理模式-图片预加载
+    var proxyImg = function (ele, src) {
+      ele.src = './img/loading.jpg';
+      var img = new Image();
+      img.src = src;
+      if (img.complete) {
+        ele.src = src;
+      } else {
+        img.onload = function () {
+        ele.src = src;
+      };
+      }
+    }
+    var imgNode = document.getElementById('img1');
+    // 替换myImg(imgNode, './img/logo.jpg');操作
+    // 代理操作和本体接口保持一致性
+    proxyImg(imgNode, './img/logo.jpg');
+    </script>
+  </body>
+</html>
